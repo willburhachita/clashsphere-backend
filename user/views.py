@@ -102,7 +102,7 @@ class SignatureView(APIView):
         """
         wallet_address = request.GET.get("wallet_address", None)
 
-        if wallet_address is None or wallet_address is "":
+        if wallet_address is None or wallet_address == "":
             raise InvalidParameterException("wallet_address")
         
         wallet_address = Web3.to_checksum_address(wallet_address)
