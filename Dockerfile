@@ -10,7 +10,14 @@ RUN apt-get update && apt-get install -y \
     default-libmysqlclient-dev \
     build-essential \
     pkg-config \
+    libmariadb-dev \
+    libmariadb-dev-compat \
+    mariadb-client \
     && rm -rf /var/lib/apt/lists/*
+
+# Set MySQL client environment variables
+ENV MYSQLCLIENT_CFLAGS="-I/usr/include/mysql"
+ENV MYSQLCLIENT_LDFLAGS="-L/usr/lib/x86_64-linux-gnu -lmysqlclient"
 
 # Create and activate virtual environment
 RUN python -m venv --copies /opt/venv
