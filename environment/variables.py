@@ -17,11 +17,11 @@ class EnvironmentVariable:
     DEFAULT_NETWORK = int(config('DEFAULT_NETWORK', 1))
 
     # Database
-    DATABASE_NAME = config('DATABASE_NAME', 'acquire')
+    DATABASE_NAME = config('DATABASE_NAME', 'railway')
     DATABASE_HOST = config('DATABASE_HOST', 'localhost')
-    DATABASE_PORT = config('DATABASE_PORT', '5432')
-    DATABASE_USERNAME = config('DATABASE_USERNAME', 'postgres')
-    DATABASE_PASSWORD = config('DATABASE_PASSWORD', 'postgres')
+    DATABASE_PORT = config('DATABASE_PORT', '3306')
+    DATABASE_USERNAME = config('DATABASE_USERNAME', 'root')
+    DATABASE_PASSWORD = config('DATABASE_PASSWORD', '')
 
     # AWS S3 Configurations
     AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID', 'SCH59NYTBER50DFFKM6')
