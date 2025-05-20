@@ -62,7 +62,7 @@ jsonschema==4.17.3
 jwcrypto==1.5.6
 kombu==5.3.7
 lru-dict==1.2.0
-mysqlclient==2.2.4
+mysqlclient==2.2.1
 netaddr==0.8.0
 oauthlib==3.2.2
 packaging==24.0
