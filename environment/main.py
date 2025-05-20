@@ -6,14 +6,6 @@ from datetime import timedelta
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': EnvironmentVariable.DATABASE_NAME,
-    #     'HOST': EnvironmentVariable.DATABASE_HOST,
-    #     'PORT': EnvironmentVariable.DATABASE_PORT,
-    #     'USER': EnvironmentVariable.DATABASE_USERNAME,
-    #     'PASSWORD': EnvironmentVariable.DATABASE_PASSWORD,
-    # }
     'default': { 
         'ENGINE': 'django.db.backends.mysql',
         'NAME': EnvironmentVariable.DATABASE_NAME,
