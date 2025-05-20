@@ -13,6 +13,13 @@ DATABASES = {
         'PORT': EnvironmentVariable.DATABASE_PORT,
         'USER': EnvironmentVariable.DATABASE_USERNAME,
         'PASSWORD': EnvironmentVariable.DATABASE_PASSWORD,
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            'charset': 'utf8mb4',
+            'use_unicode': True,
+        },
+        'CONN_MAX_AGE': 60,
+        'CONN_HEALTH_CHECKS': True,
     }
 }
 
