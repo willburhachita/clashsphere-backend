@@ -17,11 +17,11 @@ class EnvironmentVariable:
     DEFAULT_NETWORK = int(config('DEFAULT_NETWORK', 1))
 
     # Database
-    DATABASE_NAME = config('MYSQLDATABASE', 'railway')
-    DATABASE_HOST = config('MYSQLHOST', 'localhost')
+    DATABASE_NAME = config('MYSQL_DATABASE', 'railway')
+    DATABASE_HOST = config('RAILWAY_PRIVATE_DOMAIN', 'localhost')
     DATABASE_PORT = config('MYSQLPORT', '3306')
     DATABASE_USERNAME = config('MYSQLUSER', 'root')
-    DATABASE_PASSWORD = config('MYSQLPASSWORD', '')
+    DATABASE_PASSWORD = config('MYSQL_ROOT_PASSWORD', '')
 
     # AWS S3 Configurations
     AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID', 'SCH59NYTBER50DFFKM6')
