@@ -18,8 +18,8 @@ class EnvironmentVariable:
 
     # Database
     DATABASE_NAME = config('MYSQL_DATABASE', 'railway')
-    DATABASE_HOST = config('RAILWAY_PRIVATE_DOMAIN', 'localhost')
-    DATABASE_PORT = config('MYSQLPORT', '3306')
+    DATABASE_HOST = config('RAILWAY_TCP_PROXY_DOMAIN', 'localhost')
+    DATABASE_PORT = config('RAILWAY_TCP_PROXY_PORT', '3306')
     DATABASE_USERNAME = config('MYSQLUSER', 'root')
     DATABASE_PASSWORD = config('MYSQL_ROOT_PASSWORD', '')
 
