@@ -16,7 +16,10 @@ class EnvironmentVariable:
     
     DEFAULT_NETWORK = int(config('DEFAULT_NETWORK', 1))
 
-    # Database
+    # Database - Railway URL
+    DATABASE_URL = config('DATABASE_URL', 'mysql://root:cuiZEjFTitdpdnljxrVkKjDIwZWgXFHg@maglev.proxy.rlwy.net:11657/railway')
+
+    # Database - Individual configs (fallback/legacy)
     DATABASE_NAME = config('MYSQL_DATABASE', 'railway')
     DATABASE_HOST = config('RAILWAY_TCP_PROXY_DOMAIN', 'localhost')
     DATABASE_PORT = config('RAILWAY_TCP_PROXY_PORT', '3306')
