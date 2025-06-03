@@ -16,6 +16,9 @@ class EnvironmentVariable:
     
     DEFAULT_NETWORK = int(config('DEFAULT_NETWORK', 1))
 
+    # Database Control Flag
+    MYSQL_LOCALLY = config('MYSQL_LOCALLY', 'false').lower() == 'true'
+
     # Database - Railway URL
     DATABASE_URL = config('DATABASE_URL', 'mysql://root:cuiZEjFTitdpdnljxrVkKjDIwZWgXFHg@maglev.proxy.rlwy.net:11657/railway')
 

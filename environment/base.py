@@ -106,6 +106,8 @@ else:
     # Localhost
     'http://localhost:3000', # Frontend
     'http://127.0.0.1:8000',
+    # Railway Production
+    'https://clashsphere-backend-production.up.railway.app',
     ]
     CORS_ALLOWED_ORIGINS = ALLOWED_ORIGIN_LIST
 
@@ -113,6 +115,7 @@ else:
 CSRF_TRUSTED_ORIGINS = [
  'http://localhost:3000', # Frontend
  'http://127.0.0.1:8000',
+ 'https://clashsphere-backend-production.up.railway.app', # Railway Production
 ]
 
 
