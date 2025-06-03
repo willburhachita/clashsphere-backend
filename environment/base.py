@@ -186,9 +186,17 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static_files'),)
+
+# Only add STATICFILES_DIRS if the directory exists to avoid errors
+static_files_dir = os.path.join(BASE_DIR, 'static_files')
+if os.path.exists(static_files_dir):
+    STATICFILES_DIRS = [static_files_dir]
+else:
+    STATICFILES_DIRS = []
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 

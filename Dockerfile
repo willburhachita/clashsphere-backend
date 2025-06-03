@@ -35,11 +35,14 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy project files
 COPY . .
 
-# Run migrations and collect static files
-RUN python manage.py collectstatic --noinput
+# Create static directories if they don't exist
+RUN mkdir -p static static_files
+
+# Make startup script executable
+RUN chmod +x start.sh
 
 # Expose port
 EXPOSE 8000
 
-# Run the application
-CMD ["gunicorn", "common.wsgi:application", "--bind", "0.0.0.0:8000"] 
+# Run the startup script
+CMD ["./start.sh"] 
