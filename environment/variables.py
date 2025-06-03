@@ -1,4 +1,5 @@
 from decouple import config
+import os
 
 
 class EnvironmentVariable:
@@ -18,6 +19,9 @@ class EnvironmentVariable:
 
     # Database Control Flag
     MYSQL_LOCALLY = config('MYSQL_LOCALLY', 'false').lower() == 'true'
+    
+    # Detect if we're running on Railway
+    IS_RAILWAY = bool(os.environ.get('RAILWAY_ENVIRONMENT_NAME'))
 
     # Database - Railway URL
     DATABASE_URL = config('DATABASE_URL', 'mysql://root:cuiZEjFTitdpdnljxrVkKjDIwZWgXFHg@maglev.proxy.rlwy.net:11657/railway')

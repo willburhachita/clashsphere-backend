@@ -8,7 +8,27 @@ import dj_database_url
 
 # Conditional Database Configuration
 # Use Railway database if in PRODUCTION or MYSQL_LOCALLY is True
-if EnvironmentVariable.BACKEND_ENVIRONMENT == "PROD" or EnvironmentVariable.MYSQL_LOCALLY:
+# Also default to Railway if we're in a containerized environment (Railway deployment)
+
+# Debug: Print environment values
+print(f"🔍 BACKEND_ENVIRONMENT: {EnvironmentVariable.BACKEND_ENVIRONMENT}")
+print(f"🔍 MYSQL_LOCALLY: {EnvironmentVariable.MYSQL_LOCALLY}")
+print(f"🔍 IS_RAILWAY: {EnvironmentVariable.IS_RAILWAY}")
+print(f"🔍 DATABASE_URL exists: {bool(EnvironmentVariable.DATABASE_URL)}")
+
+# Use Railway database in these cases:
+# 1. BACKEND_ENVIRONMENT is "PROD" 
+# 2. MYSQL_LOCALLY is True
+# 3. We're running on Railway platform
+# 4. DATABASE_URL contains 'railway'
+use_railway_db = (
+    EnvironmentVariable.BACKEND_ENVIRONMENT == "PROD" or 
+    EnvironmentVariable.MYSQL_LOCALLY or
+    EnvironmentVariable.IS_RAILWAY or
+    'railway' in EnvironmentVariable.DATABASE_URL.lower()
+)
+
+if use_railway_db:
     # Use dj-database-url to parse Railway's DATABASE_URL
     DATABASES = {
         'default': dj_database_url.parse(
