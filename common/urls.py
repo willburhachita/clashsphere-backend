@@ -47,6 +47,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.HealthView.as_view(), name="Health-Check"),
+    path('health/', views.SimpleHealthView.as_view(), name="Simple-Health-Check"),
     
     # API endpoints
     path('api/user/', include(('user.urls', 'user'), namespace='user_management')),

@@ -36,19 +36,16 @@ python manage.py migrate || echo "Migration failed, but continuing..."
 echo "📁 Collecting static files..."
 python manage.py collectstatic --noinput || echo "Static files collection failed, but continuing..."
 
-# Test if we can start Django development server first
-echo "🧪 Testing Django app startup..."
-timeout 5 python manage.py runserver 0.0.0.0:$PORT &
-sleep 2
-pkill -f runserver || true
+# Skip the Django development server test since it conflicts with gunicorn
+echo "🧪 Skipping Django dev server test to avoid port conflicts..."
 
 # Start the application with Railway-optimized gunicorn config
 echo "🌐 Starting gunicorn on 0.0.0.0:$PORT..."
 exec gunicorn common.wsgi:application \
     --bind 0.0.0.0:$PORT \
-    --workers 1 \
+    --workers 2 \
     --worker-class sync \
-    --timeout 60 \
+    --timeout 120 \
     --keep-alive 5 \
     --max-requests 1000 \
     --max-requests-jitter 50 \
