@@ -3,7 +3,10 @@ set -e  # Exit on any error
 
 echo "🚀 Starting Django application..."
 echo "Environment: $RAILWAY_ENVIRONMENT_NAME"
-echo "Port: ${PORT:-8000}"
+
+# Railway often uses PORT, but fallback to 8000
+export PORT=${PORT:-8000}
+echo "Port: $PORT"
 
 # Check if we can import Django
 echo "🐍 Testing Python and Django..."
@@ -33,21 +36,22 @@ python manage.py migrate || echo "Migration failed, but continuing..."
 echo "📁 Collecting static files..."
 python manage.py collectstatic --noinput || echo "Static files collection failed, but continuing..."
 
-# Get the port from Railway environment or default to 8000
-PORT=${PORT:-8000}
-
 # Test if we can start Django development server first
 echo "🧪 Testing Django app startup..."
 timeout 5 python manage.py runserver 0.0.0.0:$PORT &
 sleep 2
 pkill -f runserver || true
 
-# Start the application with simpler gunicorn config
-echo "🌐 Starting gunicorn on port $PORT..."
+# Start the application with Railway-optimized gunicorn config
+echo "🌐 Starting gunicorn on 0.0.0.0:$PORT..."
 exec gunicorn common.wsgi:application \
     --bind 0.0.0.0:$PORT \
     --workers 1 \
+    --worker-class sync \
     --timeout 60 \
-    --log-level debug \
+    --keep-alive 5 \
+    --max-requests 1000 \
+    --max-requests-jitter 50 \
+    --log-level info \
     --access-logfile - \
     --error-logfile - 
