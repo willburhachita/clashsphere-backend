@@ -38,11 +38,13 @@ COPY . .
 # Create static directories if they don't exist
 RUN mkdir -p static static_files
 
-# Make startup script executable
-RUN chmod +x start.sh
+# Make startup script executable with proper permissions
+RUN chmod +x start.sh && \
+    ls -la start.sh && \
+    head -5 start.sh
 
 # Expose port
 EXPOSE 8000
 
 # Run the startup script
-CMD ["./start.sh"] 
+CMD ["/bin/bash", "/app/start.sh"] 
