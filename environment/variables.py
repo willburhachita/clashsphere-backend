@@ -26,12 +26,12 @@ class EnvironmentVariable:
     # Database - Railway URL
     DATABASE_URL = config('DATABASE_URL', 'mysql://root:cuiZEjFTitdpdnljxrVkKjDIwZWgXFHg@maglev.proxy.rlwy.net:11657/railway')
 
-    # Database - Individual configs (fallback/legacy)
-    DATABASE_NAME = config('MYSQL_DATABASE', 'railway')
-    DATABASE_HOST = config('RAILWAY_TCP_PROXY_DOMAIN', 'localhost')
+    # Database - Individual configs (fallback/legacy - should NOT be used in Railway)
+    DATABASE_NAME = config('MYSQL_DATABASE', 'FALLBACK_LOCAL_DB')
+    DATABASE_HOST = config('RAILWAY_TCP_PROXY_DOMAIN', 'FALLBACK_LOCALHOST')
     DATABASE_PORT = config('RAILWAY_TCP_PROXY_PORT', '3306')
-    DATABASE_USERNAME = config('MYSQLUSER', 'root')
-    DATABASE_PASSWORD = config('MYSQL_ROOT_PASSWORD', '')
+    DATABASE_USERNAME = config('MYSQLUSER', 'FALLBACK_USER')
+    DATABASE_PASSWORD = config('MYSQL_ROOT_PASSWORD', 'FALLBACK_PASSWORD')
 
     # AWS S3 Configurations
     AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID', 'SCH59NYTBER50DFFKM6')

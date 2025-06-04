@@ -14,38 +14,63 @@ import dj_database_url
 print(f"🔍 BACKEND_ENVIRONMENT: {EnvironmentVariable.BACKEND_ENVIRONMENT}")
 print(f"🔍 MYSQL_LOCALLY: {EnvironmentVariable.MYSQL_LOCALLY}")
 print(f"🔍 IS_RAILWAY: {EnvironmentVariable.IS_RAILWAY}")
-print(f"🔍 DATABASE_URL exists: {bool(EnvironmentVariable.DATABASE_URL)}")
+print(f"🔍 DATABASE_URL: {EnvironmentVariable.DATABASE_URL[:50]}...")
 
-# Use Railway database in these cases:
+# Force Railway database usage in these cases:
 # 1. BACKEND_ENVIRONMENT is "PROD" 
 # 2. MYSQL_LOCALLY is True
 # 3. We're running on Railway platform
-# 4. DATABASE_URL contains 'railway'
+# 4. DATABASE_URL contains Railway domain
 use_railway_db = (
     EnvironmentVariable.BACKEND_ENVIRONMENT == "PROD" or 
     EnvironmentVariable.MYSQL_LOCALLY or
     EnvironmentVariable.IS_RAILWAY or
+    'railway.net' in EnvironmentVariable.DATABASE_URL or
     'railway' in EnvironmentVariable.DATABASE_URL.lower()
 )
 
-if use_railway_db:
+print(f"🔍 USE_RAILWAY_DB: {use_railway_db}")
+
+# Always use Railway database if DATABASE_URL contains railway domain
+if 'railway.net' in EnvironmentVariable.DATABASE_URL or use_railway_db:
     # Use dj-database-url to parse Railway's DATABASE_URL
-    DATABASES = {
-        'default': dj_database_url.parse(
-            EnvironmentVariable.DATABASE_URL,
-            conn_max_age=60,
-            conn_health_checks=True,
-        )
-    }
-    
-    # Add MySQL-specific options
-    DATABASES['default']['OPTIONS'] = {
-        'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        'charset': 'utf8mb4',
-        'use_unicode': True,
-    }
-    
-    print("🚀 Using Railway MySQL Database")
+    try:
+        parsed_db = dj_database_url.parse(EnvironmentVariable.DATABASE_URL)
+        DATABASES = {
+            'default': {
+                **parsed_db,
+                'CONN_MAX_AGE': 60,
+                'CONN_HEALTH_CHECKS': True,
+                'OPTIONS': {
+                    'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+                    'charset': 'utf8mb4',
+                    'use_unicode': True,
+                },
+            }
+        }
+        print(f"🚀 Using Railway MySQL Database: {parsed_db['HOST']}:{parsed_db['PORT']}")
+        
+    except Exception as e:
+        print(f"❌ Failed to parse DATABASE_URL: {e}")
+        # Fallback to manual Railway configuration
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.mysql',
+                'NAME': 'railway',
+                'HOST': 'maglev.proxy.rlwy.net',
+                'PORT': '11657',
+                'USER': 'root',
+                'PASSWORD': 'cuiZEjFTitdpdnljxrVkKjDIwZWgXFHg',
+                'OPTIONS': {
+                    'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+                    'charset': 'utf8mb4',
+                    'use_unicode': True,
+                },
+                'CONN_MAX_AGE': 60,
+                'CONN_HEALTH_CHECKS': True,
+            }
+        }
+        print("🔄 Using manual Railway database configuration")
     
 else:
     # Use local database configuration
